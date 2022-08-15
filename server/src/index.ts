@@ -1,5 +1,6 @@
 import express , {Request, Response, NextFunction}from 'express'
 import { json } from 'body-parser'
+import "reflect-metadata"
 import path from 'path';
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
