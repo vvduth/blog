@@ -6,8 +6,8 @@ const router = express.Router();
 router.post('/posts/userprofiletodb', (req, res, next) => {
     const values = [req.body.profile.nickname, 
                     req.body.profile.email, 
-                    req.body.profile.email_verified]
-    pool.query(`INSERT INTO users(username, email, email_verified, date_created)
+                    ]
+    pool.query(`INSERT INTO users(username, email, date_created)
                 VALUES($1, $2, $3, NOW())
                 ON CONFLICT DO NOTHING`, values,
                 (q_err, q_res) => {
