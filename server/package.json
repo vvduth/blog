@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/index.js",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migrate": "npm run build && npm run typeorm migration:generate ./src/migrations/added-entity -d ./src/utils/data-source.ts",
+    "db:push": "rm -rf build && npm run build && npm run typeorm migration:run -d src/utils/data-source.ts"
   },
   "keywords": [],
   "author": "",
