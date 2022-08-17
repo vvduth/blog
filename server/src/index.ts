@@ -9,11 +9,19 @@ import path from "path";
 import userRoutes from './routers/userRoute'
 import { json } from "body-parser";
 import { pool } from "./dbConfig";
+import cors from 'cors'
 import generateToken from "./utils/generateToken";
 
 
 
 const app = express();
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+)
 
 initializePassport(passport)
 app.use(express.urlencoded({ extended: false }));
