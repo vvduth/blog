@@ -3,6 +3,11 @@ import { pool } from "../dbConfig";
 import express, { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
+
+
+export interface getProfileRequest extends Request {
+  user?: any
+}
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
     let { username, email, password } = req.body;
@@ -99,4 +104,30 @@ export const authUser = asyncHandler(async(req: Request, res: Response) => {
           }
         }
     )
+})
+
+export const getUserProfile  = asyncHandler(async(req: getProfileRequest, res: Response) => {
+
+  
+  pool.query(
+    `SELECT uid, username, email, role FROM  users WHERE uid=$1`,
+    [req.user.uid],
+    async (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (result) {
+        res.status(200).json({
+          id: result.rows[0].uid,
+          username: result.rows[0].username,
+          email: result.rows[0].email,
+          role: result.rows[0].role
+        })
+      } else {
+        res.status(404)
+        throw new Error('User not found ')
+      }
+
+    }
+  );
 })
