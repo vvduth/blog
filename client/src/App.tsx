@@ -17,7 +17,7 @@ function App() {
   return (
     <div>
       <h1>Main screen</h1>
-      {user.username ? (
+      {(user?.username && user) ? (
         <>
           {" "}
           <h1>hello {user.username}</h1> <br />{" "}

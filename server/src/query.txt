@@ -1,0 +1,11 @@
+SELECT users.username , posts.title, posts.body
+FROM users 
+INNER JOIN posts
+ON users.uid = posts.user_id
+
+// get all posts
+
+
+// insrt post into db
+INSERT INTO posts(title,body,user_id,author,date_created) VALUES('test 2','this is test #2',14,'tristian', NOW());
+

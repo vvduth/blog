@@ -17,7 +17,7 @@ const LoginScreen: FC<any> = () => {
     
     await dispatch(loginUser({ email, password }));
     const loggedInUser = localStorage.getItem("user");
-    console.log(loggedInUser)
+    //console.log(loggedInUser)
     if (loggedInUser) {
       setIsLoggedIn(true)
     }
@@ -58,6 +58,7 @@ const LoginScreen: FC<any> = () => {
           </label>
           <br />
           <button type="submit">Login</button>
+          {(user?.message && user) ? <p>{user.message}</p> : null}
           <div>New to this blog?</div>
           <Link to={"/register"}>Register instead</Link>
         </form>

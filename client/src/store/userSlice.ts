@@ -47,8 +47,8 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("user", JSON.stringify(response.data));
       return response.data
     } catch (e: any) {
-      console.error(e);
-      return e.message;
+      console.log("catched some eror",e.response.data);
+      return e.response.data;
     }
   }
 );
@@ -73,7 +73,7 @@ export const registerUser = createAsyncThunk(
       localStorage.setItem("user", JSON.stringify(response.data));
       return response.data
     } catch (e: any) {
-      console.error(e);
+      console.log("cathed some error",e);
       return e.message;
     }
   }
@@ -93,7 +93,16 @@ const userSlice = createSlice({
       loginUser.fulfilled,
       (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-        //console.log(action.payload)
+        console.log("action is fulfullied")
+        console.log(action.payload)
+        console.log("stat user", state.user)
+      }
+    )
+    builder.addCase(
+      loginUser.rejected,
+      (state, action: PayloadAction<any>) => {
+        
+        console.log(action)
       }
     )
     builder.addCase(

@@ -7,6 +7,7 @@ import logger from "morgan";
 import { initializePassport } from "./passportConfig";
 import path from "path";
 import userRoutes from './routers/userRoute'
+import postRoute from './routers/postRoute'
 import { json } from "body-parser";
 import { pool } from "./dbConfig";
 import cors from 'cors'
@@ -50,6 +51,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.use("/api/users",userRoutes );
+app.use("/api/posts", postRoute)
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () => {

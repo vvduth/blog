@@ -94,13 +94,13 @@ export const authUser = asyncHandler(async(req: Request, res: Response) => {
                     token: generateToken(result.rows[0].uid),
                 })
             } else {
-                res.status(401)
-                throw new Error('Invalid email or password')
+                res.status(401).json({message: "Invalid email or password"})
+                
             }
             
           } else {
-            res.status(401)
-            throw new Error("Invalid email, try again or creat new account")
+            
+            res.status(401).json({message: "Invalid email, please register instead"})
           }
         }
     )
