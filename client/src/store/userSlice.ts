@@ -5,6 +5,13 @@ export interface UserLoginInput {
   email: string;
   password: string;
 }
+
+export interface UserRegisterInput {
+  email: string;
+  username: string ;
+  password: string;
+
+}
 export interface User {
   email: string;
   username: string;
@@ -46,10 +53,41 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "user/registerUser",
+  async (k: UserRegisterInput) => {
+    let email = k.email ;
+    let password = k.password ;
+    let username = k.username ;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/users/register`,
+        {username,email  , password },
+        config
+      );
+      localStorage.setItem("user", JSON.stringify(response.data));
+      return response.data
+    } catch (e: any) {
+      console.error(e);
+      return e.message;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser(state) {
+      state.user = {} ;
+      localStorage.removeItem('user') ;
+    }
+  },
   extraReducers(builder) {
     builder.addCase(
       loginUser.fulfilled,
@@ -57,8 +95,16 @@ const userSlice = createSlice({
         state.user = action.payload;
         //console.log(action.payload)
       }
-    );
+    )
+    builder.addCase(
+      registerUser.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+        //console.log(action.payload)
+      }
+    )
   },
 });
 
+export const {logoutUser} = userSlice.actions ;
 export default userSlice.reducer;

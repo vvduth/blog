@@ -1,15 +1,31 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { registerUser } from "../store/userSlice";
 
 const RegisterScreen = () => {
+
+  let user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
   const [username, setUsername] = useState<any>("");
   const [email, setEmail] = useState<any>("");
   const [password, setPassword] = useState<any>("");
-  const submitHandler = (e: any) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const submitHandler = async (e: any) => {
     e.preventDefault();
+    await dispatch(registerUser({username, email, password})) ;
+
+    const loggedInUser = localStorage.getItem("user");
+    console.log(loggedInUser)
+    if (loggedInUser) {
+      setIsLoggedIn(true)
+    }
+    
   };
-  return (
-    <>
+  if (isLoggedIn) {
+    return <Navigate replace to ='/' />
+  } else {
+    return (<>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <label>
@@ -58,8 +74,8 @@ const RegisterScreen = () => {
       <Link to={"/login"} >
         Login instead
       </Link>
-    </>
-  );
+    </>)
+  }
 };
 
 export default RegisterScreen;
