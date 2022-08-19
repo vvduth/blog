@@ -4,6 +4,10 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { useAppSelector, useAppDispatch } from "./store/hooks";
 import { logoutUser } from "./store/userSlice";
+import HomeScreen from "./screens/HomeScreen";
+import { resetState } from "./store/postSlice";
+import { useEffect } from "react";
+
 
 function App() {
   const user = useAppSelector((state: any) => state.user.user);
@@ -14,9 +18,17 @@ function App() {
     e.preventDefault();
     dispatch(logoutUser());
   };
+
+  
+  
+  
+
+  const state = useAppSelector(state => state)
+  console.log("from app.tsx",state)
   return (
     <div>
       <h1>Main screen</h1>
+      <HomeScreen />
       {(user?.username && user) ? (
         <>
           {" "}

@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import { store } from './store/store';
+import PostScreen from './screens/PostScreen';
 
 
 const root = ReactDOM.createRoot(
@@ -19,6 +20,7 @@ root.render(
       <Route path="/" element={<App/>} />
       <Route path="/register" element={<RegisterScreen/>} />
       <Route path="/login" element={<LoginScreen/>} />
+      <Route path="/post/:pid" element={<PostScreen/>} />
     </Routes>
     </Provider>
   </BrowserRouter>

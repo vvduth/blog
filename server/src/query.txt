@@ -9,3 +9,13 @@ ON users.uid = posts.user_id
 // insrt post into db
 INSERT INTO posts(title,body,user_id,author,date_created) VALUES('test 2','this is test #2',14,'tristian', NOW());
 
+// get one single post 
+`SELECT * FROM posts
+              WHERE pid=$1`
+
+// like a post 
+
+UPDATE posts
+              SET like_user_id = like_user_id || 14, likes = likes + 1
+              WHERE NOT (SELECT '{14}' && like_user_id)
+              AND pid = (1)
