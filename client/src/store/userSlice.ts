@@ -86,6 +86,13 @@ const userSlice = createSlice({
     logoutUser(state) {
       state.user = {} ;
       localStorage.removeItem('user') ;
+    },
+    autoLogin(state) {
+      const userLogin = localStorage.getItem("user") as any ;
+      const userLoginJson =  JSON.parse(userLogin)
+      if (userLoginJson) {
+        state.user = userLoginJson
+      }
     }
   },
   extraReducers(builder) {
@@ -115,5 +122,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {logoutUser} = userSlice.actions ;
+export const {logoutUser, autoLogin} = userSlice.actions ;
 export default userSlice.reducer;

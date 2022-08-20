@@ -29,7 +29,7 @@ const HomeScreen = () => {
   return (<>
     {posts && posts.map((post)=> (
         <div key ={post.pid}>
-            <h1 >{post.title}</h1>
+            <h1 className="text-2xl font-bold underline">{post.title}</h1>
             <p>Author: {post.author}</p>
             <p>Publish at : {post.date_created}</p>
             <Link to={`/post/${post.pid}`}>click here</Link>

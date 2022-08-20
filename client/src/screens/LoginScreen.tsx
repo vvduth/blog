@@ -29,7 +29,7 @@ const LoginScreen: FC<any> = () => {
   } else {
     return (
       <>
-        <h1>LoginScreen</h1>
+        <h1 className="text-2xl font-bold underline">LoginScreen</h1>
 
         <form onSubmit={submitHandler}>
           <label>

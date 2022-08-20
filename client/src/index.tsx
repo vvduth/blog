@@ -9,6 +9,7 @@ import { store } from './store/store';
 import PostScreen from './screens/PostScreen';
 
 
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
