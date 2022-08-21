@@ -62,6 +62,7 @@ export const sendLikes = asyncHandler(async (req:getProfileRequest, res) => {
     }
     
     if (q_res) {
+      console.log(q_res)
       res.json({message: "Success"})
     }
   });

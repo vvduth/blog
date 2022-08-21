@@ -2,38 +2,51 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
-      <div className="mx-auto max-w-screen-xl text-center">
-        {/* <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6 ">About</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">Premium</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6 ">Campaigns</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">Blog</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">Affiliate Program</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">FAQs</a>
-          </li>
-          <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">Contact</a>
-          </li>
-      </ul> */}
-        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2021-2022{" "}
-          <a href="/" className="hover:underline">
-            Duc Thai
-          </a>
-          . UI inspired by FlowBite.
-        </span>
+    <footer className="bg-white dark:bg-gray-900bg-white dark:bg-gray-900 border-t border-gray-400 shadow">
+      <div className="container max-w-4xl mx-auto flex py-8">
+        <div className="w-full mx-auto flex flex-wrap">
+          <div className="flex w-full md:w-1/2 ">
+            <div className="px-8">
+              <h3 className="font-bold text-white">About</h3>
+              <p className="py-4 text-white text-sm">
+                This website was built and develop by Duc Thai. UI inspired by
+                FlowBite and TailWindToolBox.com (Jo Bloggerson)
+              </p>
+            </div>
+          </div>
+
+          <div className="flex w-full md:w-1/2">
+            <div className="px-8">
+              <h3 className="font-bold text-white">Social</h3>
+              <ul className="list-reset items-center text-sm pt-3">
+                <li>
+                  <a
+                    className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                    href="/"
+                  >
+                    Add social link
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                    href="/"
+                  >
+                    Add social link
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                    href="/"
+                  >
+                    Add social link
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );
