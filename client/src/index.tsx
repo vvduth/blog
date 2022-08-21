@@ -15,16 +15,11 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <BrowserRouter>
+  
     <Provider store={store}>
-    <Routes>
-      <Route path="/" element={<App/>} />
-      <Route path="/register" element={<RegisterScreen/>} />
-      <Route path="/login" element={<LoginScreen/>} />
-      <Route path="/post/:pid" element={<PostScreen/>} />
-    </Routes>
+      <App/>
     </Provider>
-  </BrowserRouter>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function

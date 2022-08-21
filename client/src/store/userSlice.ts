@@ -70,6 +70,7 @@ export const registerUser = createAsyncThunk(
         {username,email  , password },
         config
       );
+      console.log(response.data)
       localStorage.setItem("user", JSON.stringify(response.data));
       return response.data
     } catch (e: any) {

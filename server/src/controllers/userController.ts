@@ -24,8 +24,8 @@ export const registerUser = asyncHandler(
     }
 
     if (errors.length > 0) {
-      res.status(404);
-      throw new Error("Invalid information please check again");
+      res.status(401).json({ errors: errors });
+      //throw new Error("Invalid information please check again");
     } else {
       let hasedPasword = await bcrypt.hash(password, 10);
       pool.query(
@@ -39,7 +39,7 @@ export const registerUser = asyncHandler(
 
           if (result.rows.length > 0) {
             errors.push({ message: "user already existed" });
-            res.json({ errors: errors });
+            res.status(401).json({ errors: errors });
           } else {
             
             pool.query(
