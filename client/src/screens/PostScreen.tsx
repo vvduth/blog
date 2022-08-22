@@ -2,29 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Post } from "./HomeScreen";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getOnePost } from "../store/postSlice";
+import { getOnePost, sendLike } from "../store/postSlice";
+import LikeIcons from "../components/LikeIcons";
 
 const PostScreen = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     dispatch(getOnePost(params.pid));
   }, [dispatch, params.pid]);
 
-  const onClickLikeHandler = () => {
-    setIsActive(!isActive) ;
-  }
-
   const post = useAppSelector((state) => state.post.post);
-  const state = useAppSelector((state) => state);
-  console.log(state);
-  //console.log(params)
+  const user = useAppSelector((state: any) => state.user.user);
 
-  if (post) {
+  if (post && user) {
     console.log("from post screen", post.title);
   }
+  
   return (
     <>
       {post ? (
@@ -118,25 +113,7 @@ const PostScreen = () => {
 
             <blockquote className="border-l-4 border-green-500 italic my-8 pl-8 md:pl-12">
               Published by: {post.author}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                color={isActive ? 'blue' : 'gray'}
-                onClick= {onClickLikeHandler}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
-                />
-                
-              </svg>
-              <p>{post.likes} likes </p>
-
-              
+              <LikeIcons />
             </blockquote>
           </div>
         </>

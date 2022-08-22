@@ -54,6 +54,7 @@ export const registerUser = asyncHandler(
                 let token = generateToken(result.rows[0].uid)
                 res.status(201).json({
                   message: "successfully registered",
+                  id: result.rows[0].uid,
                   username,
                   email,
                   password: hasedPasword,

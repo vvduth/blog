@@ -62,8 +62,19 @@ export const sendLikes = asyncHandler(async (req:getProfileRequest, res) => {
     }
     
     if (q_res) {
-      console.log(q_res)
-      res.json({message: "Success"})
+      pool.query(`SELECT likes, like_user_id FROM posts
+      WHERE pid=$1`,
+      [post_id],(err, result)=> {
+        if (err) {
+          throw err
+        } 
+        if (result) {
+          res.json(result.rows[0])
+        } else {
+          res.status(500).json({message: "Sonething wrong happened, please try again later."})
+        }
+      })
+      
     }
   });
 });
