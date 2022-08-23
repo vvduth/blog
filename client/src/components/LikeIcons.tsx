@@ -7,19 +7,27 @@ const LikeIcons = () => {
   const dispatch = useAppDispatch();
   console.log(post);
   console.log(user);
-  const [isActive, setIsActive] = useState(post.like_user_id.includes(user.id));
-  const [likes, setLikes] = useState(post.likes)
+  const [isActive, setIsActive] = useState(false);
+  const [likes, setLikes] = useState(post.likes);
+  const [mess, setMess] = useState<string| null>(null) ;
   
   useEffect(()=> {
-    setIsActive(post.like_user_id.includes(user.id)) ;
+    //setIsActive(post.like_user_id.includes(user?.id)) ;
+    if (user?.id) {
+      setIsActive(post.like_user_id.includes(user.id)) ;
+    } else {
+      setIsActive(false)
+    }
     setLikes(post.likes)
-  }, [post.like_user_id, post.likes, user.id])
+  }, [post.like_user_id, post.likes])
 
   const onClickHandler = async () => {
     await dispatch(sendLike(post.pid))
-    if (!isActive) {
+    if (!isActive && user) {
         setIsActive(true) 
         setLikes(likes+1)
+    } else if (!user) {
+      setMess("Please log in to like the post")
     }
   }
 
@@ -41,6 +49,7 @@ const LikeIcons = () => {
         />
       </svg>
       <p>{likes} likes </p>
+      {mess !== null ? <p>{mess}</p> : null}
     </>
   );
 };

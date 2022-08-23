@@ -78,3 +78,34 @@ export const sendLikes = asyncHandler(async (req:getProfileRequest, res) => {
     }
   });
 });
+
+export const getAllComments = asyncHandler(async (req, res)=> {
+   const post_id = req.params.pid ; 
+   pool.query(
+    `SELECT 
+    u.uid, u.username, p.pid, p.title ,cm.comment, cm.post_id, cm.date_created, cm.cid
+   
+   FROM comments  cm
+   INNER JOIN posts AS p 
+   ON p.pid = cm.post_id
+   AND cm.post_id = $1
+   INNER JOIN users u
+   ON u.uid = cm.user_id`,
+    [post_id],
+    async (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (result.rows.length >= 0) {
+        console.log(result.rows);
+        res.status(201).json(result.rows);
+      } else {
+        res
+          .status(501)
+          .json({
+            message: "This post no longer exist, we are sorry for this.",
+          });
+      }
+    }
+  );
+})

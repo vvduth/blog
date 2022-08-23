@@ -19,3 +19,19 @@ UPDATE posts
               SET like_user_id = like_user_id || 14, likes = likes + 1
               WHERE NOT (SELECT '{14}' && like_user_id)
               AND pid = (1)
+
+
+// post commnet into database
+INSERT INTO comments(comment, user_id, author, post_id, date_created)
+              VALUES($1, $2, $3, $4, NOW())
+
+// get comments based on post id , 
+SELECT 
+ u.uid, u.username, p.pid, p.title ,cm.comment, cm.post_id
+
+FROM comments  cm
+INNER JOIN posts AS p 
+ON p.pid = cm.post_id
+AND cm.post_id = 6
+INNER JOIN users u
+ON u.uid = cm.user_id

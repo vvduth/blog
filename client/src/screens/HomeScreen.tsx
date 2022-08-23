@@ -52,7 +52,7 @@ const HomeScreen = () => {
                   </svg>
                   Tutorial
                 </span>
-                <span className="text-sm">{post.date_created}</span>
+                <span className="text-sm">{post.date_created.split('T')[0]} at {post.date_created.split('T')[1].split(':')[0]} o'clock</span>
               </div>
               <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 <a href="/">{post.title}</a>

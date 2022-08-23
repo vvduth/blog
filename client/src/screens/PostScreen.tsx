@@ -4,13 +4,24 @@ import { Post } from "./HomeScreen";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getOnePost, sendLike } from "../store/postSlice";
 import LikeIcons from "../components/LikeIcons";
-
+import CommentSection from "../components/CommentSection";
+import axios from "axios";
+import { CommentSingle } from "../components/CommentSection";
 const PostScreen = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const [comments, setComments] = useState<CommentSingle[] |[]>([]) ;
+
+  const fetchAllComment = async  () => {
+    const response = await axios.get(`http://localhost:5000/api/posts/${params.pid}/comments`)
+    console.log(response.data)
+    setComments(response.data) ;
+  }
 
   useEffect(() => {
     dispatch(getOnePost(params.pid));
+    
+    fetchAllComment() ; 
   }, [dispatch, params.pid]);
 
   const post = useAppSelector((state) => state.post.post);
@@ -115,6 +126,8 @@ const PostScreen = () => {
               Published by: {post.author}
               <LikeIcons />
             </blockquote>
+
+            <CommentSection comments={comments} />
           </div>
         </>
       ) : null}

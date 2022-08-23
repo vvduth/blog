@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { autoLogin, logoutUser } from "../store/userSlice";
 
@@ -10,7 +11,7 @@ const Header = () => {
     dispatch(autoLogin());
   }, [dispatch]);
 
-  const logoutHandler = (e: any) => {
+  const logoutHandler = async (e: any) => {
     e.preventDefault();
     dispatch(logoutUser());
   };
