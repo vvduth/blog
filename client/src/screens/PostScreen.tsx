@@ -11,6 +11,7 @@ const PostScreen = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const [comments, setComments] = useState<CommentSingle[] |[]>([]) ;
+  
 
   const fetchAllComment = async  () => {
     const response = await axios.get(`http://localhost:5000/api/posts/${params.pid}/comments`)
@@ -127,7 +128,7 @@ const PostScreen = () => {
               <LikeIcons />
             </blockquote>
 
-            <CommentSection comments={comments} />
+            <CommentSection paramsID={params.pid} comments={comments} />
           </div>
         </>
       ) : null}

@@ -1,10 +1,12 @@
-import React, { FC, useState } from "react";
-
+import React, { FC, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { getAllComments, postComment } from "../store/commentSlice";
+import { useParams } from "react-router-dom";
 export interface CommentSingle {
-  uid: number;
+  uid?: number;
   cid: number;
   username: string;
-  pid: number;
+  pid?: number;
   title: string;
   comment: string;
   post_id: string;
@@ -13,16 +15,29 @@ export interface CommentSingle {
 }
 
 export interface CommentProps {
+  paramsID: any, 
   comments: CommentSingle[] | [];
 }
 
 const CommentSection: FC<CommentProps> = (props) => {
-  const [a, setA] = useState<string>('')
+  const dispatch = useAppDispatch() 
+  const [body, setA] = useState<string>('')
+  const comments = useAppSelector((state) => state.comment.comments);
+  useEffect(() => {
+    dispatch(getAllComments(props.paramsID))
+  }, [dispatch, props.paramsID]);
+
+  const onSubmitHandler = async (e:any) => {
+    e.preventDefault() ; 
+    console.log("trigger") ;
+    await dispatch(postComment({postId: props.paramsID,comment:body}))
+    setA('') ;
+  }
   return (
     <>
-      {props.comments.length > 0 ? (
+      { comments && comments.length > 0 ? (
         <>
-          {props.comments.map((comment) => (
+          {comments.map((comment) => (
             <div
               key={comment.cid}
               className="flex w-full items-center font-sans px-4 py-12"
@@ -75,7 +90,7 @@ const CommentSection: FC<CommentProps> = (props) => {
         </>
       )}
       <div id="section2" className="p-8 mt-6 lg:mt-0 rounded shadow bg-gray">
-        <form>
+        <form onSubmit={onSubmitHandler}>
           
 
           <div className="md:flex mb-6">
@@ -92,7 +107,7 @@ const CommentSection: FC<CommentProps> = (props) => {
                 className="form-textarea block w-full focus:bg-white border-black"
                 id="my-textarea"
                 rows={8}
-                value={a}
+                value={body}
                 
                 onChange={(e) => {
                   setA(e.target.value);
@@ -109,7 +124,7 @@ const CommentSection: FC<CommentProps> = (props) => {
             <div className="md:w-2/3">
               <button
                 className="shadow bg-yellow-700 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                type="button"
+                type="submit"
               >
                 Save comment
               </button>

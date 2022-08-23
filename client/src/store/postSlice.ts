@@ -11,6 +11,8 @@ interface Post {
   like_user_id?: number[] | null;
   likes?: number;
 }
+
+
 export interface PostState {
   post: Post | null | any;
 }
@@ -53,6 +55,8 @@ export const sendLike = createAsyncThunk(
     }
   }
 );
+
+
 
 
 const postSlice = createSlice({
