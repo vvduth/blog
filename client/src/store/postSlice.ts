@@ -44,7 +44,7 @@ export const sendLike = createAsyncThunk(
     };
     try {
       const response = await axios.put(`http://localhost:5000/api/posts/${k}/like`,{} ,config);
-      console.log(response.data);
+      //console.log(response.data);
       const likes = response.data.likes
       return {...state.post.post,likes: likes, like_user_id: response.data.like_user_id};
     } catch (e: any) {
@@ -68,9 +68,9 @@ const postSlice = createSlice({
       getOnePost.fulfilled,
       (state, action: PayloadAction<Post>) => {
         state.post = action.payload;
-        console.log("action is fulfullied");
-        console.log(action.payload);
-        console.log("state post", state.post);
+        //console.log("action is fulfullied");
+        //console.log(action.payload);
+        //console.log("state post", state.post);
       }
     );
     builder.addCase(sendLike.fulfilled, (state, action: PayloadAction<any>) => {

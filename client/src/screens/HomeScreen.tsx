@@ -33,8 +33,7 @@ const HomeScreen = () => {
             Our Blog
           </h2>
           <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-            We use an agile approach to test assumptions and connect with the
-            needs of your audience early and often.
+            Developer, Baller and Hustler journey
           </p>
         </div>
         {posts &&

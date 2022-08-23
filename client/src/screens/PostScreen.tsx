@@ -14,7 +14,7 @@ const PostScreen = () => {
 
   const fetchAllComment = async  () => {
     const response = await axios.get(`http://localhost:5000/api/posts/${params.pid}/comments`)
-    console.log(response.data)
+    //console.log(response.data)
     setComments(response.data) ;
   }
 
@@ -28,7 +28,7 @@ const PostScreen = () => {
   const user = useAppSelector((state: any) => state.user.user);
 
   if (post && user) {
-    console.log("from post screen", post.title);
+    //console.log("from post screen", post.title);
   }
   
   return (

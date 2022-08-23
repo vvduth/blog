@@ -70,7 +70,7 @@ export const registerUser = createAsyncThunk(
         {username,email  , password },
         config
       );
-      console.log(response.data)
+      //console.log(response.data)
       localStorage.setItem("user", JSON.stringify(response.data));
       return response.data
     } catch (e: any) {
@@ -101,9 +101,9 @@ const userSlice = createSlice({
       loginUser.fulfilled,
       (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-        console.log("action is fulfullied")
-        console.log(action.payload)
-        console.log("stat user", state.user)
+        // console.log("action is fulfullied")
+        // console.log(action.payload)
+        // console.log("stat user", state.user)
       }
     )
     builder.addCase(

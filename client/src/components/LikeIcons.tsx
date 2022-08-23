@@ -5,8 +5,8 @@ const LikeIcons = () => {
   const post = useAppSelector((state: any) => state.post.post);
   const user = useAppSelector((state: any) => state.user.user);
   const dispatch = useAppDispatch();
-  console.log(post);
-  console.log(user);
+  // console.log(post);
+  // console.log(user);
   const [isActive, setIsActive] = useState(false);
   const [likes, setLikes] = useState(post.likes);
   const [mess, setMess] = useState<string| null>(null) ;

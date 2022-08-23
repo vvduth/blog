@@ -79,6 +79,24 @@ export const sendLikes = asyncHandler(async (req:getProfileRequest, res) => {
   });
 });
 
+export const postComments = asyncHandler(async(req:getProfileRequest, res ) => {
+  const user_id = req.user.uid;
+  const post_id = req.params.pid;
+  const username = req.user.username ; 
+  const {comment} = req.body ;
+  
+  pool.query(`INSERT INTO comments(comment, user_id, username, post_id, date_created)
+  VALUES($1, $2, $3, $4, NOW()) RETURNING *`,[comment, user_id, username, post_id], (err, result) => {
+    if (err) {
+      throw err 
+    } 
+    if (result) {
+      //console.log(result.rows)
+      res.json(result.rows[0])
+    }
+  })
+})
+
 export const getAllComments = asyncHandler(async (req, res)=> {
    const post_id = req.params.pid ; 
    pool.query(
@@ -97,7 +115,7 @@ export const getAllComments = asyncHandler(async (req, res)=> {
         throw err;
       }
       if (result.rows.length >= 0) {
-        console.log(result.rows);
+        //console.log(result.rows);
         res.status(201).json(result.rows);
       } else {
         res
