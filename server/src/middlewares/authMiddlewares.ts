@@ -40,3 +40,14 @@ export const protect: RequestHandler = asyncHandler(async (req, res, next) => {
     }
   }
 });
+
+export const admin: RequestHandler = (req:any,res, next) => {
+  if (req.user && req.user.role ) {
+    next() ;
+
+  } else {
+    res.status(401) ;
+    throw new Error("Not authorize as an admin")
+  }
+}
+
