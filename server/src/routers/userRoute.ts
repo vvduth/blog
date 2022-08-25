@@ -1,4 +1,5 @@
-import { protect } from './../middlewares/authMiddlewares';
+import { getAllUsers } from './../controllers/userController';
+import { protect, admin } from './../middlewares/authMiddlewares';
 
 
 import express from 'express'
@@ -8,6 +9,7 @@ const router = express.Router()
 router.route('/register').post(registerUser) ;
 router.route('/login').post(  authUser);
 router.route('/profile').get(protect, getUserProfile)
+router.route('/getAllUser').get(protect,admin, getAllUsers) ;
 
 
 

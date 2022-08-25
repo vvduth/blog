@@ -25,11 +25,9 @@ export const protect: RequestHandler = asyncHandler(async (req, res, next) => {
           if (err) {
             throw err;
           }
-          //console.log("REsult", result.rows[0]);
           if (result) {
             req.user = result.rows[0];
           }
-          //console.log("From middlewares", req.user);
           next();
         }
       );

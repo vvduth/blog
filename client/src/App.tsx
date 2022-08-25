@@ -13,7 +13,7 @@ import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
 import PostScreen from "./screens/PostScreen";
 import Footer from "./screens/Footer";
-
+import AdminScreen from "./screens/AdminScreen";
 function App() {
   return (
     <div>
@@ -24,6 +24,7 @@ function App() {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/post/:pid" element={<PostScreen />} />
+          <Route path="/admin" element={<AdminScreen/>} />
         </Routes>
       </BrowserRouter>
       <Footer />

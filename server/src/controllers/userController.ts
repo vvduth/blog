@@ -132,3 +132,24 @@ export const getUserProfile  = asyncHandler(async(req: getProfileRequest, res: R
     }
   );
 })
+
+// for admin only
+export const getAllUsers  = asyncHandler(async(req: getProfileRequest, res: Response) => {
+
+  
+  pool.query(
+    `SELECT * FROM users`,
+    async (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (result) {
+        res.status(200).json(result.rows)
+      } else {
+        res.status(404)
+        throw new Error('User not found ')
+      }
+
+    }
+  );
+})
