@@ -9,38 +9,37 @@ const Footer = () => {
             <div className="px-8">
               <h3 className="font-bold text-white">About</h3>
               <p className="py-4 text-white text-sm">
-                This website was built and develop by Duc Thai. UI inspired by
-                FlowBite and TailWindToolBox.com (Jo Bloggerson)
+                This website was built and developed by Duc Thai.
               </p>
             </div>
           </div>
 
           <div className="flex w-full md:w-1/2">
             <div className="px-8">
-              <h3 className="font-bold text-white">Social</h3>
+              <h3 className="font-bold text-white">UI Sources</h3>
               <ul className="list-reset items-center text-sm pt-3">
                 <li>
                   <a
                     className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
-                    href="/"
+                    href="https://flowbite.com/"
                   >
-                    Add social link
+                    FlowBite 
                   </a>
                 </li>
                 <li>
                   <a
                     className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
-                    href="/"
+                    href="https://github.com/davidgrzyb"
                   >
-                    Add social link
+                    David Grzyb
                   </a>
                 </li>
                 <li>
                   <a
                     className="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
-                    href="/"
+                    href="https://github.com/tailwindtoolbox"
                   >
-                    Add social link
+                    TailwindToolBox
                   </a>
                 </li>
               </ul>

@@ -101,9 +101,6 @@ const userSlice = createSlice({
       loginUser.fulfilled,
       (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-        // console.log("action is fulfullied")
-        // console.log(action.payload)
-        // console.log("stat user", state.user)
       }
     )
     builder.addCase(
