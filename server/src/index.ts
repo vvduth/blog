@@ -1,3 +1,4 @@
+import { ServerSocket } from './webSocket/socket';
 import bcrypt from "bcryptjs";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -12,10 +13,15 @@ import { json } from "body-parser";
 import { pool } from "./dbConfig";
 import cors from 'cors'
 import generateToken from "./utils/generateToken";
+import http from 'http'
 
 
 
 const app = express();
+
+const httpServer  = http.createServer(app) ; 
+new ServerSocket(httpServer); 
+
 
 app.use(
   cors({
