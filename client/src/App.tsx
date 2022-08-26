@@ -4,16 +4,15 @@ import "./main.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { useAppSelector, useAppDispatch } from "./store/hooks";
-import { logoutUser } from "./store/userSlice";
+
 import HomeScreen from "./screens/HomeScreen";
-import { resetState } from "./store/postSlice";
-import { useEffect } from "react";
-import { autoLogin } from "./store/userSlice";
+
 import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
 import PostScreen from "./screens/PostScreen";
 import Footer from "./screens/Footer";
 import AdminScreen from "./screens/AdminScreen";
+import ChatScreen from "./screens/ChatScreen";
 function App() {
   return (
     <div>
@@ -25,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/post/:pid" element={<PostScreen />} />
           <Route path="/admin" element={<AdminScreen/>} />
+          <Route path="/chat" element={<ChatScreen/>} />
         </Routes>
       </BrowserRouter>
       <Footer />

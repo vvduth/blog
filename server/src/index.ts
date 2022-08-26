@@ -1,4 +1,4 @@
-import { ServerSocket } from './webSocket/socket';
+import { Server  } from "socket.io";
 import bcrypt from "bcryptjs";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -19,8 +19,28 @@ import http from 'http'
 
 const app = express();
 
-const httpServer  = http.createServer(app) ; 
-new ServerSocket(httpServer); 
+const server = http.createServer(app)
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+})
+
+
+io.on("connection", (socket) => {
+  // ...
+  console.log("new websocket connection")
+
+  socket.emit('message', 'welcome to chat support, how may I help you?')
+
+  //broastcast when one user connected
+  socket.broadcast.emit('message', 'A user has joined the chat') ;
+
+  socket.on('disconnect',  () => {
+    io.emit('message', 'A user has left the chat')
+  })
+});
 
 
 app.use(
@@ -30,7 +50,8 @@ app.use(
   })
 )
 
-initializePassport(passport)
+
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use(logger("dev"));
@@ -49,8 +70,7 @@ app.use(
   })
 );
 
-app.use(passport.initialize())
-app.use(passport.session())
+
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("<p>Hello and welcome</p>");
@@ -60,6 +80,6 @@ app.use("/api/users",userRoutes );
 app.use("/api/posts", postRoute)
 
 const PORT = 5000 || process.env.PORT;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening to port ${PORT}`);
 });
