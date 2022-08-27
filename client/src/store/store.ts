@@ -1,12 +1,15 @@
+
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import userReducer from "./userSlice"
 import postReducer from "./postSlice"
 import commentReducer from "./commentSlice"
+import socketReducer from "./socketSlide"
 export const store = configureStore({
     reducer: {
         user: userReducer,
         post: postReducer,
-        comment: commentReducer
+        comment: commentReducer,
+        message: socketReducer,
     },
 })
 

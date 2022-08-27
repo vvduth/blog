@@ -2,47 +2,32 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { Socket } from 'socket.io-client';
+import { isReturnStatement } from 'typescript';
 export interface ISocketReduxState {
-    socket: Socket | undefined ; 
-    uid: string ; 
-    users: any ; 
+     
+    messages: string[]  | any | []
 
 }
 
  const initialState : ISocketReduxState = {
-    socket: undefined , 
-    uid: '' ,
-    users: [] 
-}
-
-export type TSocketContextPayload = string | string[] | Socket;
-
-export interface ISocketContextActions {
     
-    payload: TSocketContextPayload;
+    messages: [] ,
 }
 
-export type TSocketPayload =   string | string [] | Socket ;
+
 
 const socketSlice = createSlice({
     name: "socket",
     initialState , 
     reducers : {
-        updateSocket(state, action : ISocketContextActions) {
-            return { ...state, socket: action.payload as Socket };
+        updateMesseage(state, action) {
+            state.messages.push(action.payload)
         },
-        updateUserId(state,action) {
-            return { ...state, uid: action.payload as string };
-        },
-        updateUsers(state, action) {
-            return { ...state, users: action.payload as string[] };
-        },
-        removeUser(state, action) {
-            return { ...state, users: state.users.filter((uid:any) => uid !== (action.payload as string)) };
-        } 
-         
+        takeAllMess(state) {
+            return {...state}
+        }
     }
 })
 
-export const {updateSocket, updateUserId, updateUsers, removeUser} = socketSlice.actions ;
+export const {updateMesseage, takeAllMess} = socketSlice.actions ;
 export default socketSlice.reducer;

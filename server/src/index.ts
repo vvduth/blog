@@ -30,7 +30,6 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   // ...
-  console.log("new websocket connection")
 
   socket.emit('message', 'welcome to chat support, how may I help you?')
 
@@ -39,6 +38,11 @@ io.on("connection", (socket) => {
 
   socket.on('disconnect',  () => {
     io.emit('message', 'A user has left the chat')
+  })
+
+  // listen fo r chat mess
+  socket.on('chatMessage', (msg) => {
+    console.log(msg)
   })
 });
 
