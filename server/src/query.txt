@@ -35,3 +35,12 @@ ON p.pid = cm.post_id
 AND cm.post_id = 6
 INNER JOIN users u
 ON u.uid = cm.user_id
+
+
+// render all conversation based on user id 
+SELECT 
+	u.uid,u.username, con.conversation_id, con.user_id1, con.user_id2
+ FROM conversation con 
+ INNER JOIN users u
+ ON u.uid = con.user_id1 AND u.uid = 13
+ OR u.uid = con.user_id2 AND u.uid = 13

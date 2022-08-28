@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import { useSocket } from "../hooks/useSocket";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
@@ -10,37 +10,47 @@ const ChatScreen = () => {
   const [mess, setMess] = useState<any>("");
   const dispatch = useAppDispatch() ; 
   const myMess = useAppSelector(state => state.message.messages)
+
+
+
   const socket = useSocket("http://localhost:5000/", {
-        reconnectionAttempts: 5,
-        reconnectionDelay: 1000,
+        // reconnectionAttempts: 5,
+        // reconnectionDelay: 1000,
         autoConnect: false
     });
 
   useEffect(() => {
     socket.connect() ; 
+
+    
+
   })
   useEffect(() => {
     dispatch(takeAllMess() )
     console.log(myMess)
-  },[dispatch])
+
+    
+  },[dispatch, myMess,])
   
+  
+
   socket.on("message", (message) => {
     console.log(message);
-    
+    dispatch(updateMesseage(message))
   });
-
-  
   
 
   const submitHandler = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(mess);
     
-    dispatch(updateMesseage(mess))
+    
+    
     
     socket.emit('chatMessage', mess)
+    dispatch(updateMesseage(mess))
 
-    setMess('')
+    //setMess('')
     
   };
 
@@ -146,7 +156,7 @@ const ChatScreen = () => {
                   {
                     (myMess && myMess.length > 0)  ? (
                       myMess.map((m:any) => (
-                        <li key={Math.random() } className="flex justify-end">
+                        <li  key={Math.random() } className="flex justify-end">
                           <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                             <span className="block">{m}</span>
                           </div>

@@ -9,6 +9,7 @@ import { initializePassport } from "./passportConfig";
 import path from "path";
 import userRoutes from './routers/userRoute'
 import postRoute from './routers/postRoute'
+import chatRoute from './routers/chatRoutes'
 import { json } from "body-parser";
 import { pool } from "./dbConfig";
 import cors from 'cors'
@@ -82,6 +83,7 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api/users",userRoutes );
 app.use("/api/posts", postRoute)
+app.use("/api/chat", chatRoute)
 
 const PORT = 5000 || process.env.PORT;
 server.listen(PORT, () => {
