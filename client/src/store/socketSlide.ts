@@ -1,9 +1,10 @@
-
-
+import  socketClient  from 'socket.io-client';
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk , PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
+const URL_SOCKET = 'http://localhost:5000/'
 export interface Channel  {
     name: string,
     participant: number ,
@@ -49,11 +50,31 @@ export const getAllChannels = createAsyncThunk(
   );
 
 
+
+
 const socketSlice = createSlice({
     name: "socket",
     initialState , 
     reducers : {
-        
+        setUpSocket(state) {
+          let socket = socketClient(URL_SOCKET) ;
+          socket.on('connection', () => {
+            console.log(`I am connected to the backend`)
+          })
+          state.socket = socket ;
+        },
+        updateParticipants(state:ChatState,id:any) {
+          // id here is action, will rename when nesscessary
+          console.log("id ",id.payload)
+          let channel = state.channels!.find(c => {
+            return c.id === id.payload ; 
+          })
+          console.log(channel)
+          state.selectedChannel = channel ; 
+          state.socket.emit('channel-join',id, (_ack: any) => {
+
+          });
+        }
     },
     extraReducers(builder) {
         builder.addCase(
@@ -65,5 +86,5 @@ const socketSlice = createSlice({
       },
 })
 
-export const {} = socketSlice.actions ;
+export const {setUpSocket, updateParticipants} = socketSlice.actions ;
 export default socketSlice.reducer;

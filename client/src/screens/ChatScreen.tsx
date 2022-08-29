@@ -3,16 +3,16 @@ import io from "socket.io-client";
 import socketClient from "socket.io-client";
 import { useSocket } from "../hooks/useSocket";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { setUpSocket } from "../store/socketSlide";
 
 import ChatBox from "../components/ChatBox";
 
 const ChatScreen = () => {
+  const dispatch = useAppDispatch() ; 
   
-  
-  var SOCKET = socketClient("http://localhost:5000/")
-  SOCKET.on('connection', () => {
-    console.log(`I am connected to the back ende bro`)
-  })
+  useEffect(() => {
+    dispatch(setUpSocket())
+  },[dispatch])
   
   return <>
     <ChatBox />

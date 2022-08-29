@@ -14,10 +14,8 @@ const ChatChannelList: FC<any> = (props) => {
           <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
           <li>
             {channels.map((c: any) => (
-              <>
-              <ChatChannelSingle key={c.id} channel={c}/>
               
-              </>
+              <ChatChannelSingle key={c.id} channel={c}/>
               
               
             ))}

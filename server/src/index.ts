@@ -34,9 +34,9 @@ io.on("connection", (socket: any) => {
   socket.emit("connection", null);
 
   socket.on("channel-join", (id: any) => {
-    console.log("channel join", id);
+    console.log("channel join", id.payload);
     STATIC_CHANNELS.forEach((c:any) => {
-      if (c.id === id) {
+      if (c.id === id.payload) {
         if (c.sockets.indexOf(socket.id) == -1) {
           c.sockets.push(socket.id);
           c.participants++;
@@ -52,8 +52,10 @@ io.on("connection", (socket: any) => {
       }
     });
 
-    return id;
+    return id.payload;
   });
+
+
 });
 
 app.use(
