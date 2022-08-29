@@ -65,7 +65,7 @@ const AdminScreen = () => {
                   {allUsers.map((user) => (
                     <tr key={user.uid}>
                       <td className="w-1/3 text-left py-3 px-4">
-                        {user.username}
+                        {user.uid}  {user.username} 
                       </td>
                       <td className="text-left py-3 px-4">
                         {user.role ? (<CheckV />) : (<NotCheckV />)}
