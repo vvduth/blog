@@ -4,14 +4,14 @@ import socketClient from "socket.io-client";
 import { useSocket } from "../hooks/useSocket";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { setUpSocket } from "../store/socketSlide";
-
+import { setUpAndUpdateSocket } from "../store/socketSlide";
 import ChatBox from "../components/ChatBox";
 
 const ChatScreen = () => {
   const dispatch = useAppDispatch() ; 
   
   useEffect(() => {
-    dispatch(setUpSocket())
+    dispatch(setUpAndUpdateSocket())
   },[dispatch])
   
   return <>

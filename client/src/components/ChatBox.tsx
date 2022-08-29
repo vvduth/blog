@@ -12,9 +12,6 @@ const ChatBox = () => {
     dispatch(getAllChannels()) ;
   })
   
-
-  
-
   
   return (
     <>

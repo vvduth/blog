@@ -7,7 +7,7 @@ const ChatChannelSingle: FC<any> = (props) => {
   const channels = useAppSelector((state: any) => state.message.channels)
   const onClickHandler = async () => {
     
-    dispatch(updateParticipants(props.channel.id)) ;
+    dispatch(updateParticipants(props.channel.id))
     await dispatch(getAllChannels())
   }
   return (
