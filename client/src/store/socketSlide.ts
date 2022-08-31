@@ -2,11 +2,12 @@ import socketClient from "socket.io-client";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useSocket } from "../hooks/useSocket";
 
 const URL_SOCKET = "http://localhost:5000/";
 export interface Channel {
   name: string;
-  participant: number;
+  participants: number;
   id: number;
   socket: any | [] | any[];
   messages?: any | [] | string[] | any[] | null;
@@ -51,16 +52,12 @@ export const getAllChannels = createAsyncThunk(
 
 export const setUpAndUpdateSocket = createAsyncThunk(
   "message/setupAndUpdateSocket",
-  (_k, { getState }) => {
-    let socket = socketClient(URL_SOCKET);
-
-    socket.on("connection", () => {
-      console.log(`I am connected to the backend`);
-    });
-
-    return socket;
+  (k) => {
+    return k;
   }
 );
+
+
 
 export const updateParticipants = createAsyncThunk(
   "message/updateParticipants",
@@ -70,23 +67,36 @@ export const updateParticipants = createAsyncThunk(
     let channel = state.message.channels!.find((c: any) => {
       return c.id === id;
     });
-    
+
     return channel;
   }
 );
 
+
+
 export const sendMessage = createAsyncThunk(
   "message/sendMesseage",
   (k: any, { getState }) => {
-
     return k;
   }
 );
 
+export const updateAllChannelsThroghtSocket2  = createAsyncThunk(
+  "messeage/updateParticipantInSocket",
+  (channel:any, {getState}) => {
+    return channel
+  }
+)
+
 const socketSlice = createSlice({
   name: "socket",
   initialState,
-  reducers: {},
+  reducers: {
+    updateAllChannelsThroghtSocket(state, action) {
+      console.log(action.payload)
+      return {...state, channels: action.payload}
+    }
+  },
   extraReducers(builder) {
     builder.addCase(
       getAllChannels.fulfilled,
@@ -104,9 +114,17 @@ const socketSlice = createSlice({
       updateParticipants.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.selectedChannel = action.payload;
-        state.socket.emit("channel-join", action.payload.id, (_ack: any) => {
-          /* TODO document why this arrow function is empty */
-        });
+        
+      }
+    );
+    builder.addCase(
+      updateAllChannelsThroghtSocket2.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.channels.forEach ((c:Channel) => {
+          if (c.id === action.payload.id) {
+            c.participants = action.payload.participants;
+        }
+        })
         
       }
     );
@@ -136,5 +154,5 @@ const socketSlice = createSlice({
   },
 });
 
-export const socketActions = socketSlice.actions;
+export const  {updateAllChannelsThroghtSocket} = socketSlice.actions;
 export default socketSlice.reducer;

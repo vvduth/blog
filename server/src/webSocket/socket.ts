@@ -1,17 +1,18 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
+import { STATIC_CHANNELS } from '../controllers/chatController';
 
 export class ServerSocket {
     public static instance: ServerSocket;
     public io: Server;
 
     /** Master list of all connected users */
-    public users: { [uid: string]: string };
+    public users: any[];
 
     constructor(server: HttpServer) {
         ServerSocket.instance = this;
-        this.users = {};
+        this.users = [];
         this.io = new Server(server, {
             serveClient: false,
             pingInterval: 10000,
@@ -28,59 +29,36 @@ export class ServerSocket {
     StartListeners = (socket: Socket) => {
         console.info('Message received from ' + socket.id);
 
-        socket.on('handshake', (callback: (uid: string, users: string[]) => void) => {
+        
+
+        socket.on('handshake', () => {
             console.info('Handshake received from: ' + socket.id);
-
-            const reconnected = Object.values(this.users).includes(socket.id);
-
-            if (reconnected) {
-                console.info('This user has reconnected.');
-
-                const uid = this.GetUidFromSocketID(socket.id);
-                const users = Object.values(this.users);
-
-                if (uid) {
-                    console.info('Sending callback for reconnect ...');
-                    callback(uid, users);
-                    return;
-                }
-            }
-
-            const uid = v4();
-            this.users[uid] = socket.id;
-
-            const users = Object.values(this.users);
-            console.info('Sending callback ...');
-            callback(uid, users);
-
-            this.SendMessage(
-                'user_connected',
-                users.filter((id) => id !== socket.id),
-                users
-            );
         });
+
+        socket.on('channel-join', id => {
+            console.info('someone has joined channed ',id )
+            STATIC_CHANNELS.forEach(c => {
+                if (c.id === id) {
+                    if (c.sockets.indexOf(socket.id)== (-1)) {
+                        c.sockets.push(socket.id) ;
+                        c.participants ++ ;
+                        this.io.emit('channel', c) ;
+                    }
+                } else {
+                    let index = c.sockets.indexOf(socket.id) ;
+                    if (index != (-1)) {
+                        c.sockets.splice(index,1) ;
+                        c.participants--;
+                        this.io.emit('channel', c)
+                    }
+                }
+            })
+        })
 
         socket.on('disconnect', () => {
             console.info('Disconnect received from: ' + socket.id);
-
-            const uid = this.GetUidFromSocketID(socket.id);
-
-            if (uid) {
-                delete this.users[uid];
-
-                const users = Object.values(this.users);
-
-                this.SendMessage('user_disconnected', users, uid);
-            }
         });
     };
 
-    GetUidFromSocketID = (id: string) => {
-        return Object.keys(this.users).find((uid) => this.users[uid] === id);
-    };
-
-    SendMessage = (name: string, users: string[], payload?: Object) => {
-        console.info('Emitting event: ' + name + ' to', users);
-        users.forEach((id) => (payload ? this.io.to(id).emit(name, payload) : this.io.to(id).emit(name)));
-    };
+    
 }

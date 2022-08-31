@@ -12,14 +12,13 @@ import SocketContextComponent from "../context/SocketContextComponent";
 const ChatScreen = () => {
   const dispatch = useAppDispatch() ; 
   
-  useEffect(() => {
-    dispatch(setUpAndUpdateSocket())
-  },[dispatch])
+  
   
   return <>
     <SocketContextComponent>
-      <ChatBoxChilderDemo />
-    </SocketContextComponent>
+      <ChatBox />
+    </SocketContextComponent> 
+    
   </>;
 };
 
