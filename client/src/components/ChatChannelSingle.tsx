@@ -1,14 +1,26 @@
-import React, { FC } from "react";
+import React, { FC, useContext, useEffect } from "react";
+import SocketContext from "../context/Context";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateParticipants , getAllChannels} from "../store/socketSlide";
 const ChatChannelSingle: FC<any> = (props) => {
-  const dispatch = useAppDispatch()
+  const { socket } = useContext(SocketContext).SocketState;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user.user)
   
-  const channels = useAppSelector((state: any) => state.message.channels)
-  const onClickHandler = async () => {
-    
-    dispatch(updateParticipants(props.channel.id))
-    await dispatch(getAllChannels())
+  useEffect(() => {
+    dispatch(getAllChannels());
+  }, [dispatch]);
+  const allChannels = useAppSelector((state: any) => state.message.channels);
+  const selectedChannel = useAppSelector((state: any ) => state.message.selectedChannel)
+  const onClickHandler = async (id:any) => {
+    console.log(id)
+     
+    //dispatch(getAllChannels());
+     socket.emit("channel-join", ({id, user: user}), (_ack: any) => {
+      /* TODO document why this arrow function is empty */
+     });
+     await dispatch(getAllChannels())
+     dispatch(updateParticipants(id))
   }
   return (
     <div className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
@@ -36,7 +48,7 @@ const ChatChannelSingle: FC<any> = (props) => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          onClick={onClickHandler}
+          onClick={() => (onClickHandler(props.channel.id))}
         >
           <path
             strokeLinecap="round"

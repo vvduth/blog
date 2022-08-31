@@ -64,9 +64,11 @@ export const updateParticipants = createAsyncThunk(
   (id: any, { getState }) => {
     const state: any = getState();
 
-    let channel = state.message.channels!.find((c: any) => {
+    let channel = state.message.channels.find((c: any) => {
       return c.id === id;
     });
+    
+    console.log("after finding",  channel )
 
     return channel;
   }
@@ -113,6 +115,7 @@ const socketSlice = createSlice({
     builder.addCase(
       updateParticipants.fulfilled,
       (state, action: PayloadAction<any>) => {
+        
         state.selectedChannel = action.payload;
         
       }

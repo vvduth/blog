@@ -18,18 +18,8 @@ const MessagePanel = () => {
   const dispatch = useAppDispatch();
   const handleMessageSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("trigger");
-    //dispatch(updateSocket({}))
-    //dispatch(setUpAndUpdateSocket())
     
-    dispatch(
-      sendMessage({
-        channel_id: selectedChannel!.id,
-        text: text,
-        senderName: user.username,
-        user_id: user.id,
-      })
-    );
+    
   };
   return (
     <>

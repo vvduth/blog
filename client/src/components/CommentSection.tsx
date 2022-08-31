@@ -29,7 +29,7 @@ const CommentSection: FC<CommentProps> = (props) => {
 
   const onSubmitHandler = async (e:any) => {
     e.preventDefault() ; 
-    console.log("trigger") ;
+    
     await dispatch(postComment({postId: props.paramsID,comment:body}))
     setA('') ;
   }
