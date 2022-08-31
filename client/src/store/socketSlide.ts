@@ -9,6 +9,7 @@ export interface Channel {
   participant: number;
   id: number;
   socket: any | [] | any[];
+  messages?: any | [] | string[] | any[] | null;
 }
 
 export interface ChatState {
@@ -24,7 +25,7 @@ const initialState: ChatState = {
 };
 
 export const getAllChannels = createAsyncThunk(
-  "messeage/fetchAllChannels",
+  "message/fetchAllChannels",
   async (_k, { getState }) => {
     const state: any = getState();
     const userInfo = state.user.user;
@@ -39,7 +40,7 @@ export const getAllChannels = createAsyncThunk(
         `http://localhost:5000/api/chat/allChannels`,
         config
       );
-      
+
       return response.data.channels;
     } catch (e: any) {
       console.log("catch some error", e);
@@ -51,25 +52,10 @@ export const getAllChannels = createAsyncThunk(
 export const setUpAndUpdateSocket = createAsyncThunk(
   "message/setupAndUpdateSocket",
   (_k, { getState }) => {
-    const state: any = getState();
     let socket = socketClient(URL_SOCKET);
 
-    console.log(state, " from creat thunk");
     socket.on("connection", () => {
       console.log(`I am connected to the backend`);
-    });
-
-    socket.on("message", (message: any) => {
-      state.channels!.forEach((c: any) => {
-        if (c.id === message.channel_id) {
-          if (!c.messages) {
-            c.messages = [message];
-          } else {
-            c.messages.push(message);
-          }
-        }
-      });
-      // state.channels = channels ;
     });
 
     return socket;
@@ -77,38 +63,30 @@ export const setUpAndUpdateSocket = createAsyncThunk(
 );
 
 export const updateParticipants = createAsyncThunk(
-  "messeage/updateParticipants",
-  (id:any, { getState }) => {
+  "message/updateParticipants",
+  (id: any, { getState }) => {
     const state: any = getState();
-    // id here is action, will rename when nesscessary
-    console.log(state);
-    
+
     let channel = state.message.channels!.find((c: any) => {
       return c.id === id;
     });
-    console.log("this is seleted chaneel ",channel);
-    state.message.socket.emit("channel-join", id, (_ack: any) => { /* TODO document why this arrow function is empty */ });
-    return channel ; 
+    
+    return channel;
+  }
+);
+
+export const sendMessage = createAsyncThunk(
+  "message/sendMesseage",
+  (k: any, { getState }) => {
+
+    return k;
   }
 );
 
 const socketSlice = createSlice({
   name: "socket",
   initialState,
-  reducers: {
-    setUpSocket(state) {
-      let socket = socketClient(URL_SOCKET);
-      socket.on("connection", () => {
-        console.log(`I am connected to the backend`);
-      });
-
-      state.socket = socket;
-    },
-
-    sendMessage(state, action) {
-      state.socket.emit("send-message", action.payload);
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(
       getAllChannels.fulfilled,
@@ -119,20 +97,44 @@ const socketSlice = createSlice({
     builder.addCase(
       setUpAndUpdateSocket.fulfilled,
       (state, action: PayloadAction<any>) => {
-        console.log(action.payload);
         state.socket = action.payload;
       }
     );
     builder.addCase(
       updateParticipants.fulfilled,
       (state, action: PayloadAction<any>) => {
-        //console.log(action.payload);
-        console.log(action.payload);
         state.selectedChannel = action.payload;
+        state.socket.emit("channel-join", action.payload.id, (_ack: any) => {
+          /* TODO document why this arrow function is empty */
+        });
+        
+      }
+    );
+    builder.addCase(
+      sendMessage.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        const { channel_id, text, senderName, user_id } = action.payload;
+        state.socket.on("message", (message: any) => {});
+        state.socket.emit("send-message", {
+          channel_id,
+          text,
+          senderName,
+          user_id,
+        });
+        state.channels?.forEach((c: any) => {
+          if (c.id === action.payload.channel_id) {
+            if (!c.messages) {
+              c.messages = [action.payload];
+            } else {
+              c.messages.push(action.payload);
+            }
+            state.selectedChannel = c;
+          }
+        });
       }
     );
   },
 });
 
-export const { setUpSocket, sendMessage } = socketSlice.actions;
+export const socketActions = socketSlice.actions;
 export default socketSlice.reducer;

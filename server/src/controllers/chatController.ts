@@ -7,12 +7,14 @@ export const STATIC_CHANNELS = [{
   name: 'Global chat',
   participants: 0,
   id: 1,
-  sockets: []
+  sockets: [],
+  messages: []
 }, {
   name: 'Funny',
   participants: 0,
   id: 2,
-  sockets: []
+  sockets: [],
+  messages: []
 }];
 
 export const getAllConversation = asyncHandler( async (req:getProfileRequest, res) => {

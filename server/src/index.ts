@@ -34,9 +34,9 @@ io.on("connection", (socket: any) => {
   socket.emit("connection", null);
 
   socket.on("channel-join", (id: any) => {
-    console.log("channel join", id.payload);
+    console.log("channel join", id);
     STATIC_CHANNELS.forEach((c: any) => {
-      if (c.id === id.payload) {
+      if (c.id === id) {
         if (c.sockets.indexOf(socket.id) == -1) {
           c.sockets.push(socket.id);
           c.participants++;
@@ -51,13 +51,10 @@ io.on("connection", (socket: any) => {
         }
       }
     });
-
-    
-
-    return id.payload;
+    return id;
   });
   socket.on("send-message", (message: any) => {
-    console.log("send mess")
+    console.log("send mess", message)
     io.emit("message", message);
   });
 });

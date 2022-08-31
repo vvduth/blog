@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { sendMessage, setUpAndUpdateSocket } from "../store/socketSlide";
+import {  setUpAndUpdateSocket } from "../store/socketSlide";
+import { sendMessage } from "../store/socketSlide";
 
 const MessagePanel = () => {
   const selectedChannel = useAppSelector(
@@ -19,7 +20,8 @@ const MessagePanel = () => {
     e.preventDefault();
     console.log("trigger");
     //dispatch(updateSocket({}))
-    dispatch(setUpAndUpdateSocket())
+    //dispatch(setUpAndUpdateSocket())
+    
     dispatch(
       sendMessage({
         channel_id: selectedChannel!.id,
@@ -46,11 +48,17 @@ const MessagePanel = () => {
           </div>
           <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
             <ul className="space-y-2">
-              <li className="flex justify-start">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">Hi</span>
-                </div>
-              </li>
+              {
+                selectedChannel.messages ? ( <>
+                    {selectedChannel.messages.map((mes:any) => (
+                      <li key={mes.text + mes.user_id + Math.random()} className="flex justify-start">
+                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                        <span className="block">{mes.text}</span>
+                      </div>
+                    </li>
+                    ) )}
+                </>): (<>no</>)
+              }
               <li className="flex justify-end">
                 <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                   <span className="block">Hiiii</span>
@@ -61,13 +69,7 @@ const MessagePanel = () => {
                   <span className="block">how are you?</span>
                 </div>
               </li>
-              <li className="flex justify-start">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span className="block">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  </span>
-                </div>
-              </li>
+              
             </ul>
           </div>
           <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
