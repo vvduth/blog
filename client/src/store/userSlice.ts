@@ -17,7 +17,7 @@ export interface User {
   username: string;
   token: string;
   role: boolean;
-  id: number;
+  id: number |string;
 }
 
 export interface UserState {

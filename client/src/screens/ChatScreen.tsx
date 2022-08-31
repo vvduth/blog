@@ -5,6 +5,9 @@ import { useSocket } from "../hooks/useSocket";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { setUpAndUpdateSocket } from "../store/socketSlide";
 import ChatBox from "../components/ChatBox";
+import ChatBoxChilderDemo from "../components/ChatBoxChilderDemo";
+
+import SocketContextComponent from "../context/SocketContextComponent";
 
 const ChatScreen = () => {
   const dispatch = useAppDispatch() ; 
@@ -14,7 +17,9 @@ const ChatScreen = () => {
   },[dispatch])
   
   return <>
-    <ChatBox />
+    <SocketContextComponent>
+      <ChatBoxChilderDemo />
+    </SocketContextComponent>
   </>;
 };
 
