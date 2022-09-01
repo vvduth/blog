@@ -7,9 +7,7 @@ const ChatChannelSingle: FC<any> = (props) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.user)
   
-  useEffect(() => {
-    dispatch(getAllChannels());
-  }, [dispatch]);
+  
   const allChannels = useAppSelector((state: any) => state.message.channels);
   const selectedChannel = useAppSelector((state: any ) => state.message.selectedChannel)
   const onClickHandler = async (id:any) => {

@@ -64,7 +64,7 @@ const SocketContextComponent: React.FunctionComponent<
       }
 
     // eslint-disable-next-line
-  }, [dispath, user]);
+  }, []);
 
   
 

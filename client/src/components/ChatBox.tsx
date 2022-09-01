@@ -5,31 +5,20 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import ChatChannelList from "./ChatChannelList";
 import MessagePanel from "./MessagePanel";
 
-
-
-
 const ChatBox = () => {
   const { socket } = useContext(SocketContext).SocketState;
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user.user)
-  
+  const user = useAppSelector((state) => state.user.user);
+
   useEffect(() => {
     dispatch(getAllChannels());
   }, [dispatch]);
   const allChannels = useAppSelector((state: any) => state.message.channels);
-  const selectedChannel = useAppSelector((state: any ) => state.message.selectedChannel)
-  const onClickHandler = async (id:any) => {
-    console.log(id)
-     
-    //dispatch(getAllChannels());
-     socket.emit("channel-join", ({id, user: user}), (_ack: any) => {
-      /* TODO document why this arrow function is empty */
-     });
-     await dispatch(getAllChannels())
-     dispatch(updateParticipants(id))
-  }
-
+  const selectedChannel = useAppSelector(
+    (state: any) => state.message.selectedChannel
+  );
   
+
   return (
     <>
       {/* {allChannels ? (
@@ -53,14 +42,13 @@ const ChatBox = () => {
       )}
       <br/>
       <p>Channel {selectedChannel ? (<>{selectedChannel.id}</>): (<>rightnow, nothinng</>)} is selected </p> */}
-      
+
       <div className="container mx-auto">
         <div className="min-w-full border rounded lg:grid lg:grid-cols-3">
           <ChatChannelList />
           <MessagePanel />
         </div>
       </div>
-     
     </>
   );
 };

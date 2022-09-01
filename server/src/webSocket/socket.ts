@@ -3,6 +3,8 @@ import { Socket, Server } from "socket.io";
 import { v4 } from "uuid";
 import { STATIC_CHANNELS } from "../controllers/chatController";
 
+const botName = "BOT" ;
+
 export class ServerSocket {
   public static instance: ServerSocket;
   public io: Server;

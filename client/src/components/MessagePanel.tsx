@@ -19,7 +19,8 @@ const MessagePanel = () => {
   const handleMessageSubmit = async (e: any) => {
     e.preventDefault();
     console.log(text)
-    socket.emit('send-message', {channel_id: selectedChannel.id, text: text, senderName: user.username, id: user.id})
+    await socket.emit('send-message', {channel_id: selectedChannel.id, text: text, senderName: user.username, id: user.id})
+    setText('');
   };
   return (
     <>
@@ -40,12 +41,17 @@ const MessagePanel = () => {
             <ul className="space-y-2">
             <li className="flex justify-end">
                 <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">Messages are supposed to be rendered below this</span>
+                  <span className="block">This is instance chat</span>
                 </div>
               </li>
               <li className="flex justify-end">
                 <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">how are you?</span>
+                  <span className="block">All there previous message have been deleted</span>
+                </div>
+              </li>
+              <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">If you leave the room all messages will be lost</span>
                 </div>
               </li>
               {
@@ -54,6 +60,7 @@ const MessagePanel = () => {
                       <li key={mes.text + mes.user_id + Math.random()} className="flex justify-start">
                       <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
                         <span className="block">{mes.text}</span>
+                        <span className="block ml-2 text-sm text-gray-600">Send by {mes.senderName}</span>
                       </div>
                     </li>
                     ) )}
@@ -64,17 +71,19 @@ const MessagePanel = () => {
             </ul>
           </div>
           <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-            <form onSubmit={handleMessageSubmit}>
+            <form className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700" onSubmit={handleMessageSubmit}>
               <input
                 type="text"
                 placeholder="Message"
                 className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                 name="message"
+                value={text}
                 onChange={(e) => {
                   setText(e.target.value);
                 }}
                 required
               />
+               
               <button type="submit">
                 <svg
                   className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
