@@ -12,8 +12,10 @@ import {
 } from "./Context";
 import {
   getAllChannels,
+  sendMessage,
   updateAllChannelsThroghtSocket2,
   updateParticipants,
+  
 } from "../store/socketSlide";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -76,7 +78,7 @@ const SocketContextComponent: React.FunctionComponent<
 
     socket.on("channel", (channel: any) => {
       dispath(updateAllChannelsThroghtSocket2(channel));
-      dispath(updateParticipants(channel));
+      
     });
 
     socket.io.on("reconnect_attempt", (attempt) => {
@@ -86,6 +88,11 @@ const SocketContextComponent: React.FunctionComponent<
     socket.io.on("reconnect_error", (error) => {
       console.info("Reconnection error: " + error);
     });
+
+    socket.on('message', async message => {
+        await dispath(sendMessage(message))
+        dispath(updateParticipants(message.channel_id))
+    })
 
     socket.io.on("reconnect_failed", () => {
       console.info("Reconnection failure.");

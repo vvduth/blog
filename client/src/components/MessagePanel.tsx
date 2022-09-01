@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { channel } from "diagnostics_channel";
+import React, { useContext, useEffect, useState } from "react";
+import SocketContext from "../context/Context";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import {  setUpAndUpdateSocket } from "../store/socketSlide";
 import { sendMessage } from "../store/socketSlide";
@@ -8,18 +10,16 @@ const MessagePanel = () => {
     (state: any) => state.message.selectedChannel
   );
   const user = useAppSelector((state: any) => state.user.user);
-  const socket = useAppSelector((state: any) => state.message.socket);
   const channels = useAppSelector((state: any) => state.message.channels);
-
-
-  
+  const { socket } = useContext(SocketContext).SocketState;
 
   const [text, setText] = useState("");
   const dispatch = useAppDispatch();
+
   const handleMessageSubmit = async (e: any) => {
     e.preventDefault();
-    
-    
+    console.log(text)
+    socket.emit('send-message', {channel_id: selectedChannel.id, text: text, senderName: user.username, id: user.id})
   };
   return (
     <>
@@ -32,12 +32,22 @@ const MessagePanel = () => {
                 src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
                 alt="username"
               />
-              <span className="block ml-2 font-bold text-gray-600">Emma</span>
+              <span className="block ml-2 font-bold text-gray-600">{selectedChannel.name} {selectedChannel.id}</span>
               <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
             </div>
           </div>
           <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
             <ul className="space-y-2">
+            <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">Messages are supposed to be rendered below this</span>
+                </div>
+              </li>
+              <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">how are you?</span>
+                </div>
+              </li>
               {
                 selectedChannel.messages ? ( <>
                     {selectedChannel.messages.map((mes:any) => (
@@ -49,16 +59,7 @@ const MessagePanel = () => {
                     ) )}
                 </>): (<>no</>)
               }
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">Hiiii</span>
-                </div>
-              </li>
-              <li className="flex justify-end">
-                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span className="block">how are you?</span>
-                </div>
-              </li>
+              
               
             </ul>
           </div>

@@ -134,14 +134,7 @@ const socketSlice = createSlice({
     builder.addCase(
       sendMessage.fulfilled,
       (state, action: PayloadAction<any>) => {
-        const { channel_id, text, senderName, user_id } = action.payload;
-        state.socket.on("message", (message: any) => {});
-        state.socket.emit("send-message", {
-          channel_id,
-          text,
-          senderName,
-          user_id,
-        });
+        
         state.channels?.forEach((c: any) => {
           if (c.id === action.payload.channel_id) {
             if (!c.messages) {
@@ -149,7 +142,6 @@ const socketSlice = createSlice({
             } else {
               c.messages.push(action.payload);
             }
-            state.selectedChannel = c;
           }
         });
       }

@@ -44,7 +44,6 @@ export class ServerSocket {
       }
 
       this.users[user.id] = socket.id;
-      
     });
 
     socket.on("channel-join", ({ id, user }) => {
@@ -73,8 +72,11 @@ export class ServerSocket {
         }
       });
     });
-
+    socket.on("send-message", (message) => {
+      this.io.emit("message", message);
+    });
     socket.on("disconnect", () => {
+      console.info("A user has disconnected");
       STATIC_CHANNELS.forEach((c) => {
         let index = c.sockets.indexOf(socket.id);
         if (index != -1) {
